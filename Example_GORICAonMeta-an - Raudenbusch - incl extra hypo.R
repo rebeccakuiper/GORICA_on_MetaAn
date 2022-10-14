@@ -36,14 +36,13 @@ metaan
 est <- coef(metaan)
 names(est) <- c("theta")
 se_est <- metaan$se
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 #
 # Apply AIC #
 # Hypothesis of interest
 H0 <- "theta == 0"
 #
-# Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+# Apply GORICA to obtain AIC weights
 results_H0 <- goric(est, VCOV = VCOV_est, H0, comparison = "complement", type = "gorica") 
 results_H0
 #
@@ -66,7 +65,7 @@ results_H0
 est <- coef(metaan)
 names(est) <- c("theta")
 se_est <- metaan$se
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 #
 # Apply GORICA #
 # Hypothesis of interest (fictional)

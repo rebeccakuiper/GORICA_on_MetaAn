@@ -104,7 +104,7 @@ confint(metaan, fixed = T, random = F)
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("theta")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 
 # Example 1.1
@@ -114,7 +114,6 @@ H0 <- "theta == 0" # Hypothesis which will be evaluated
 # Cannot test for direction (like hypothesis of interest H1.1: theta > 0).
 
 # Results
-set.seed(123) # set seed: to obtain same results when you re-run it
 # Apply GORICA to obtain AIC weights:
 results_H0_1.1 <- goric(est, VCOV = VCOV_est, H0, 
                     comparison = "complement", type = "gorica") 
@@ -145,7 +144,6 @@ H0 <- "theta == 0.1" # Hypothesis which will be evaluated
 # Cannot test for a range (like hypothesis of interest H1.2: 0 < theta < .2).
 
 # Results
-set.seed(123) # set seed: to obtain same results when you re-run it
 # Apply GORICA to obtain AIC weights:
 results_H0_1.2 <- goric(est, VCOV = VCOV_est, H0, 
                     comparison = "complement", type = "gorica") 
@@ -180,7 +178,7 @@ results_H0_1.2
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("theta")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 
 # Example 1.1
@@ -259,7 +257,7 @@ set.seed(123) # set seed: to obtain same results when you re-run it
 results_all <- goric(est, VCOV = VCOV_est, H2.0, H2.1, H2.2, H2.3, H2.4, 
                     comparison = "none", type = "gorica")
 results_all
-round(results_all$ratio.gw, 2)
+round(results_all$ratio.gw, digits = 2)
 #
 #Results:
 #   model   loglik  penalty   gorica  gorica.weights
@@ -270,7 +268,7 @@ round(results_all$ratio.gw, 2)
 #5   H2.4  -94.135    0.500  189.270           0.000
 #---
 #
-#> results_all$ratio.gw
+#> round(results_all$ratio.gw, digits = 2)
 #     vs. H2.0 vs. H2.1 vs. H2.2     vs. H2.3     vs. H2.4
 #H2.0     1.00     0.16     2.06 2.093783e+13 1.583837e+41
 #H2.1     6.13     1.00    12.62 1.283913e+14 9.712130e+41
@@ -367,14 +365,13 @@ metaan
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("theta", "beta")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis
 # H1 <- "theta > 0; beta < 0" # Hypothesis of interest
 H0 <- "theta == 0; beta == 0" # Hypothesis that can be evaluated
 
 # Apply GORICA to obtain AIC weights
-set.seed(123) # set seed: to obtain same results when you re-run it
 results_H0 <- goric(est, VCOV = VCOV_est, H0, 
                     comparison = "complement", type = "gorica") 
 results_H0
@@ -399,7 +396,7 @@ results_H0
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("theta", "beta")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest 
 H1 <- "theta > 0; beta < 0"
@@ -472,10 +469,12 @@ V <- bldiag(lapply(split(data[,c("v1i", "v2i")], data$trial), as.matrix))
 # Meta-analysis:
 metaan <- rma.mv(yi, V, mods = ~ outcome - 1, random = ~ outcome | trial, 
                  struct="UN", data=data, method="ML")
-
-# Note:
-# The interest lies in the '(raw) mean difference'.
-# This will be denoted by 'theta'.
+# Notes:
+# - The interest lies in the '(raw) mean difference'.
+#   This will be denoted by 'theta'.
+# - The function rma.mv() uses restricted maximum likelihood (REML) estimation 
+#   by default, so method="ML" must be explicitly requested, 
+#   which is used to mimic Berkey et al. (1998).
 
 # Hypothesis/-es
 #
@@ -511,7 +510,8 @@ print(metaan, digits=3)
 #Test of Moderators (coefficients 1:2):
 #  QM(df = 2) = 155.773, p-val < .001
 # or by using:
-anova(metaan, btt=1:2)
+anova(metaan)
+#anova(metaan, btt=1:2)
 
 # Reject H0: theta_AL = 0 and theta_PD = 0.
 # Cannot quantify the support for H0, nor for
@@ -542,7 +542,7 @@ anova(metaan, btt=1:2)
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("theta_AL", "theta_PD")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest - no order restriction, because AIC is used.
 #
@@ -569,19 +569,16 @@ H05 <- "abs(theta_AL) == abs(theta_PD)"
 # Apply GORICA to obtain AIC weights
 #
 # Set 1
-set.seed(123) # set seed: to obtain same results when you re-run it
 results_AIC_Set1 <- goric(est, VCOV = VCOV_est, H01, H02, H03, 
                           type = "gorica") 
 results_AIC_Set1
 #
 # Set 2
-set.seed(123) # set seed: to obtain same results when you re-run it
 results_AIC_Set2 <- goric(est, VCOV = VCOV_est, H04, 
                           comparison = "complement", type = "gorica") 
 results_AIC_Set2
 #
 # Set 3
-set.seed(123) # set seed: to obtain same results when you re-run it
 results_AIC_Set3 <- goric(est, VCOV = VCOV_est, H05, 
                           comparison = "complement", type = "gorica") 
 results_AIC_Set3
@@ -641,7 +638,7 @@ results_AIC_Set3
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("theta_AL", "theta_PD")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 
 # Set 1.1
@@ -683,7 +680,7 @@ results_H1 <- goric(est, VCOV = VCOV_est, H1.1, H1.2,
 summary(results_H1)
 #
 results_H1
-results_H1$relative.gw
+round(results_H1$ratio.gw, digits = 2)
 #
 #  Results:
 #           model   loglik  penalty  gorica  gorica.weights
@@ -691,11 +688,11 @@ results_H1$relative.gw
 #2           H1.2  -20.393    1.201  43.189           0.000
 #3  unconstrained    3.912    2.000  -3.824           0.231
 #
-#> results_H1$relative.gw
-#                  vs. H1.1    vs. H1.2 vs. unconstrained
-#H1.1          1.000000e+00 53732676772      3.323726e+00
-#H1.2          1.861065e-11           1      6.185669e-11
-#unconstrained 3.008672e-01 16166399474      1.000000e+00
+#> round(results_H1$ratio.gw, digits = 2)
+#              vs. H1.1    vs. H1.2 vs. unconstrained
+#H1.1               1.0 53728634328              3.32
+#H1.2               0.0           1              0.00
+#unconstrained      0.3 16165185252              1.00
 
 
 # Set 2
@@ -837,14 +834,13 @@ print(res, digits=3)
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("theta_AL", "theta_PD", "beta_Year_AL", "beta_Year_PD")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest
 # H1 <- "theta_AL < 0; theta_PD > 0; abs(beta_Year_AL) > abs(beta_Year_PD)"
 H0 <- "theta_AL == 0; theta_PD == 0; beta_Year_AL == beta_Year_PD"
 
 # Apply GORICA to obtain AIC weights
-set.seed(123) # set seed: to obtain same results when you re-run it
 results_H0 <- goric(est, VCOV = VCOV_est, H0, 
                     comparison = "complement", type = "gorica") 
 results_H0
@@ -865,7 +861,7 @@ results_H0
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("theta_AL", "theta_PD", "beta_Year_AL", "beta_Year_PD")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest 
 H1 <- "theta_AL < 0; theta_PD > 0; abs(beta_Year_AL) > abs(beta_Year_PD)"
@@ -892,7 +888,7 @@ results
 #Alternative:
 est <- coef(metaan)
 names(est) <- c("theta_AL", "theta_PD", "beta_Year_AL", "beta_Year_PD")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 H1_mod <- "beta_Year_AL < beta_Year_PD"
 set.seed(123) # set seed: to obtain same results when you re-run it
 results_mod <- goric(est, VCOV = VCOV_est, H1_mod, 
@@ -911,7 +907,7 @@ results_mod
 # Note that this is the same as:
 est_res <- coef(res)
 names(est_res) <- c("theta_AL", "theta_PD", "beta_Year_AL", "beta_Year_diff")
-VCOV_est_res <- res$vb
+VCOV_est_res <- vcov(res)
 H1_mod_res <- "beta_Year_diff > 0"
 set.seed(123) # set seed: to obtain same results when you re-run it
 results_mod_res <- goric(est_res, VCOV = VCOV_est_res, H1_mod_res, 
@@ -957,14 +953,13 @@ metaan
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("LogOdds")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest
 # H1 <- "LogOdds < 0"
 H0 <- "LogOdds == 0" 
 
 # Apply GORICA to obtain AIC weights
-set.seed(123) # set seed: to obtain same results when you re-run it
 results_H0 <- goric(est, VCOV = VCOV_est, H0, 
                     comparison = "complement", type = "gorica") 
 results_H0
@@ -987,7 +982,7 @@ results_H0
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("LogOdds")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest
 H1 <- "LogOdds < 0" 
@@ -1085,14 +1080,13 @@ metaan
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("LogOdds_ref", "IncreaseLogOddsPerYear", "IncreaseLogOddsPerAblat")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest
 # H1 <- "abs(IncreaseLogOddsPerYear) > abs(IncreaseLogOddsPerAblat)"
 H0 <- "abs(IncreaseLogOddsPerYear) == abs(IncreaseLogOddsPerAblat)"
 
 # Apply GORICA to obtain AIC weights
-set.seed(123) # set seed: to obtain same results when you re-run it
 results_H0 <- goric(est, VCOV = VCOV_est, H0, 
                     comparison = "complement", type = "gorica") 
 results_H0
@@ -1114,7 +1108,7 @@ results_H0
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("LogOdds_ref", "IncreaseLogOddsPerYear", "IncreaseLogOddsPerAblat")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest
 H1 <- "abs(IncreaseLogOddsPerYear) > abs(IncreaseLogOddsPerAblat)" 
@@ -1244,7 +1238,7 @@ metaan
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("RR_ref", "beta_dosage", "beta_baseline", "beta_interaction")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest
 # H1 <- "beta_baseline < 0; beta_dosage < 0; beta_interaction == 0"
@@ -1252,7 +1246,6 @@ H0 <- "beta_baseline == 0; beta_dosage == 0; beta_interaction == 0"
 # stating that they are equal to 0.
 
 # Apply GORICA to obtain AIC weights
-set.seed(123) # set seed: to obtain same results when you re-run it
 results_H0 <- goric(est, VCOV = VCOV_est, H0, 
                     comparison = "complement", type = "gorica") 
 results_H0
@@ -1276,7 +1269,7 @@ results_H0
 #Subtract estimates from meta-an, to be used in goric function
 est <- coef(metaan)
 names(est) <- c("RR_ref", "beta_dosage", "beta_baseline", "beta_interaction")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest
 H1 <- "beta_baseline < 0; beta_dosage < 0; beta_interaction == 0"
@@ -1353,7 +1346,7 @@ metaan
 est <- coef(metaan)
 names(est) <- c("RR_ref", "beta_dosage2", "beta_dosage3", "beta_baseline", 
                 "beta_interact2", "beta_interact3")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest
 # Expectation: Increasing dose a bit lowers the mean RR compared to RR_ref, 
@@ -1369,7 +1362,6 @@ VCOV_est <- metaan$vb
 H0 <- "beta_dosage2 == 0; beta_dosage2 == beta_dosage3" 
 
 # Apply GORICA to obtain AIC weights
-set.seed(123) # set seed: to obtain same results when you re-run it
 results_H0 <- goric(est, VCOV = VCOV_est, H0, 
                     comparison = "complement", type = "gorica") 
 results_H0
@@ -1392,7 +1384,7 @@ results_H0
 est <- coef(metaan)
 names(est) <- c("RR_ref", "beta_dosage2", "beta_dosage3", "beta_baseline", 
                 "beta_interact2", "beta_interact3")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest
 # Expectation: Increasing dose a bit lowers the mean RR compared to RR_ref, 
@@ -1552,13 +1544,12 @@ metaanG
 est <- coef(metaan)
 names(est) <- c("logRR_ref", "beta_allocR", "beta_allocS", 
                 "beta_year", "beta_ablat")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest
 H0_alloc <- "beta_allocR == 0; beta_allocS == 0" 
 # 
 # Apply GORICA to obtain AIC weights
-set.seed(123) # set seed: to obtain same results when you re-run it
 results_H0_alloc <- goric(est, VCOV = VCOV_est, H0_alloc, 
                           comparison = "complement", type = "gorica") 
 results_H0_alloc
@@ -1580,13 +1571,12 @@ results_H0_alloc
 estG <- coef(metaanG)
 names(estG) <- c("beta_allocA", "beta_allocR", "beta_allocS", 
                  "beta_year", "beta_ablat")
-VCOV_estG <- metaanG$vb
+VCOV_estG <- vcov(metaanG)
 
 # Hypothesis of interest
 H0_alloc_G <- "beta_allocA == beta_allocR; beta_allocR == beta_allocS" 
 # 
 # Apply GORICA to obtain AIC weights
-set.seed(123) # set seed: to obtain same results when you re-run it
 results_H0_alloc_G <- goric(estG, VCOV = VCOV_estG, H0_alloc_G, 
                             comparison = "complement", type = "gorica") 
 results_H0_alloc_G
@@ -1599,7 +1589,7 @@ results_H0_alloc_G
 est <- coef(metaan)
 names(est) <- c("logRR_ref", "beta_allocR", "beta_allocS", 
                 "beta_year", "beta_ablat")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest
 # One could argue that the logRR for 
@@ -1609,7 +1599,6 @@ VCOV_est <- metaan$vb
 H0 <- "beta_allocR == 0; beta_allocR == beta_allocS" 
 
 # Apply GORICA to obtain AIC weights
-set.seed(123) # set seed: to obtain same results when you re-run it
 results_H0 <- goric(est, VCOV = VCOV_est, H0, 
                     comparison = "complement", type = "gorica") 
 results_H0
@@ -1633,7 +1622,7 @@ results_H0
 est <- coef(metaan)
 names(est) <- c("logRR_ref", "beta_allocR", "beta_allocS", 
                 "beta_year", "beta_ablat")
-VCOV_est <- metaan$vb
+VCOV_est <- vcov(metaan)
 
 # Hypothesis of interest
 # One could argue that the logRR for 
@@ -1713,7 +1702,7 @@ results_H12
 est <- coef(metaan_orig)
 names(est) <- c("logRR_ref", "beta_allocR", "beta_allocS", 
                 "beta_year", "beta_ablat")
-VCOV_est <- metaan_orig$vb
+VCOV_est <- vcov(metaan_orig)
 #
 # Recall that, in that model, the two moderators were "centered" 
 # at 1948 and 13, respectively. 
