@@ -187,7 +187,7 @@ VCOV_est <- vcov(metaan)
 H1 <- "theta > 0" # Hypothesis of interest H1.1
 
 # Results
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H1_1.1 <- goric(est, VCOV = VCOV_est, H1, 
                     comparison = "complement", type = "gorica")
 # Note that the complement is all other orderings now; here: 'theta < 0'.
@@ -213,7 +213,7 @@ results_H1_1.1
 H1 <- "0 < theta < .2" # Hypothesis of interest H1.2
 
 # Results
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H1_1.2 <- goric(est, VCOV = VCOV_est, H1, 
                         comparison = "complement", type = "gorica")
 # Note that the complement is all other orderings now; 
@@ -253,7 +253,7 @@ H2.4 <- "theta > 0.8"       # Indicating a large effect
 # Hence, we do not need a fail-safe hypothesis.
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_all <- goric(est, VCOV = VCOV_est, H2.0, H2.1, H2.2, H2.3, H2.4, 
                     comparison = "none", type = "gorica")
 results_all
@@ -402,7 +402,7 @@ VCOV_est <- vcov(metaan)
 H1 <- "theta > 0; beta < 0"
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results <- goric(est, VCOV = VCOV_est, H1, 
                  comparison = "complement", type = "gorica")
 results
@@ -425,7 +425,7 @@ H2 <- "0.2 < theta < 0.8; beta < 0"
 # theta > 0.2; theta < 0.8: indicating a small to medium effect.
 # beta < 0:                 indicating a negative effect of the moderator.
 #
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H2_1 <- goric(est, VCOV = VCOV_est, H2, 
                      comparison = "complement", type = "gorica")
 results_H2_1
@@ -647,7 +647,7 @@ VCOV_est <- vcov(metaan)
 H1.1 <- "theta_AL < 0; theta_PD > 0" 
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H1.1 <- goric(est, VCOV = VCOV_est, H1.1, 
                       comparison = "complement", type = "gorica") 
 results_H1.1
@@ -674,7 +674,7 @@ H1.2 <- "theta_AL < 0; theta_PD < 0"
 # Note: By default, the unconstrained hypothesis is added to the set.
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H1 <- goric(est, VCOV = VCOV_est, H1.1, H1.2, 
                     type = "gorica") 
 summary(results_H1)
@@ -701,7 +701,7 @@ round(results_H1$ratio.gw, digits = 2)
 H2 <- "abs(theta_AL) > 0.2; abs(theta_PD) > 0.2"
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H2 <- goric(est, VCOV = VCOV_est, H2, 
                     comparison = "complement", type = "gorica") 
 results_H2
@@ -723,7 +723,7 @@ results_H2
 H3 <- "abs(theta_AL) < abs(theta_PD)"
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H3 <- goric(est, VCOV = VCOV_est, H3, 
                     comparison = "complement", type = "gorica") 
 results_H3
@@ -759,7 +759,7 @@ H0_range <- "abs(theta_AL) > abs(theta_PD) - 0.1*0.04945984;
              abs(theta_AL) < abs(theta_PD) + 0.1*0.04945984"
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_range <- goric(est, VCOV = VCOV_est, H0_range, 
                        comparison = "complement", type = "gorica") 
 results_range
@@ -867,7 +867,7 @@ VCOV_est <- vcov(metaan)
 H1 <- "theta_AL < 0; theta_PD > 0; abs(beta_Year_AL) > abs(beta_Year_PD)"
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results <- goric(est, VCOV = VCOV_est, H1, 
                  comparison = "complement", type = "gorica")
 results
@@ -890,7 +890,7 @@ est <- coef(metaan)
 names(est) <- c("theta_AL", "theta_PD", "beta_Year_AL", "beta_Year_PD")
 VCOV_est <- vcov(metaan)
 H1_mod <- "beta_Year_AL < beta_Year_PD"
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_mod <- goric(est, VCOV = VCOV_est, H1_mod, 
                      comparison = "complement", type = "gorica")
 results_mod
@@ -909,7 +909,7 @@ est_res <- coef(res)
 names(est_res) <- c("theta_AL", "theta_PD", "beta_Year_AL", "beta_Year_diff")
 VCOV_est_res <- vcov(res)
 H1_mod_res <- "beta_Year_diff > 0"
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_mod_res <- goric(est_res, VCOV = VCOV_est_res, H1_mod_res, 
                          comparison = "complement", type = "gorica")
 results_mod_res
@@ -988,7 +988,7 @@ VCOV_est <- vcov(metaan)
 H1 <- "LogOdds < 0" 
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results <- goric(est, VCOV = VCOV_est, H1, 
                  comparison = "complement", type = "gorica") 
 results
@@ -1012,7 +1012,7 @@ results
 H2 <- "LogOdds < -0.5" 
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H2 <- goric(est, VCOV = VCOV_est, H2, 
                     comparison = "complement", type = "gorica") 
 results_H2
@@ -1114,7 +1114,7 @@ VCOV_est <- vcov(metaan)
 H1 <- "abs(IncreaseLogOddsPerYear) > abs(IncreaseLogOddsPerAblat)" 
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H1 <- goric(est, VCOV = VCOV_est, H1, 
                     comparison = "complement", type = "gorica") 
 results_H1
@@ -1134,7 +1134,7 @@ results_H1
 H2 <- "abs(IncreaseLogOddsPerYear) - abs(IncreaseLogOddsPerAblat) > 0.2"
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H2 <- goric(est, VCOV = VCOV_est, H2, 
                     comparison = "complement", type = "gorica") 
 results_H2
@@ -1275,7 +1275,7 @@ VCOV_est <- vcov(metaan)
 H1 <- "beta_baseline < 0; beta_dosage < 0; beta_interaction == 0"
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results <- goric(est, VCOV = VCOV_est, H1, 
                  comparison = "complement", type = "gorica") 
 results
@@ -1292,7 +1292,7 @@ results
 # It is possible to have competing hypotheses (but be aware in case of overlapping ones):
 H1a <- "beta_baseline < 0; beta_dosage == 0; beta_interaction == 0" 
 H1b <- "beta_baseline < 0; beta_dosage < 0; beta_interaction == 0" 
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_ab <- goric(est, VCOV = VCOV_est, H1a, H1b, 
                     type = "gorica") # default: unconstrained
 results_ab
@@ -1313,7 +1313,7 @@ results_ab
 
 # As another example:
 H2 <- "beta_baseline < 0" # so, other two parameters are free / unrestricted
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H2 <- goric(est, VCOV = VCOV_est, H2, 
                     comparison = "complement", type = "gorica") 
 results_H2
@@ -1397,7 +1397,7 @@ VCOV_est <- vcov(metaan)
 H1 <- "beta_dosage2 < 0; beta_dosage2 < beta_dosage3"
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results <- goric(est, VCOV = VCOV_est, H1, 
                  comparison = "complement", type = "gorica") 
 results
@@ -1580,7 +1580,7 @@ H0_alloc_G <- "beta_allocA == beta_allocR; beta_allocR == beta_allocS"
 results_H0_alloc_G <- goric(estG, VCOV = VCOV_estG, H0_alloc_G, 
                             comparison = "complement", type = "gorica") 
 results_H0_alloc_G
-# Which evidently results in the same result as above.
+# Which evidently renders the same result as above.
 
 
 # AIC #
@@ -1630,7 +1630,7 @@ VCOV_est <- vcov(metaan)
 H1 <- "beta_allocR < 0; beta_allocR < beta_allocS"
 
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results <- goric(est, VCOV = VCOV_est, H1, 
                  comparison = "complement", type = "gorica") 
 results
@@ -1648,7 +1648,7 @@ results
 
 #As an alternative example:
 H2 <- "abs(beta_ablat) > abs(beta_year)"
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H2 <- goric(est, VCOV = VCOV_est, H2, 
                     comparison = "complement", type = "gorica") 
 results_H2
@@ -1667,7 +1667,7 @@ results_H2
 #As an alternative example, one can specify both simultaneously:
 H12 <- "beta_allocR < 0; beta_allocR < beta_allocS; 
         abs(beta_ablat) > abs(beta_year)"
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H12 <- goric(est, VCOV = VCOV_est, H12, 
                      comparison = "complement", type = "gorica") 
 results_H12
@@ -1712,7 +1712,7 @@ VCOV_est <- vcov(metaan_orig)
 # intrcpt + factor(alloc)random + 22*year + 17*ablat < 0, 
 # that is,
 H3a <- "logRR_ref + beta_allocR + (1970-1948)*beta_year + (30-13)*beta_ablat < 0"
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H3a <- goric(est, VCOV = VCOV_est, H3a, 
                      comparison = "complement", type = "gorica") 
 results_H3a
@@ -1731,7 +1731,7 @@ results_H3a
 #logRR_ref + beta_allocS +  5*beta_year +  5*beta_ablat
 #implying:
 H3b <- "beta_allocR - beta_allocS + (-4)*beta_year + 12*beta_ablat < 0"
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H3b <- goric(est, VCOV = VCOV_est, H3b, 
                      comparison = "complement", type = "gorica") 
 results_H3b

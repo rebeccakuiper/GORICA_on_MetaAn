@@ -4,7 +4,7 @@ library(metafor)
 if (!require("restriktor")) install.packages("restriktor") # install this package first (once)
 library(restriktor) # for goric function
 
-library(devtools) # Make sure you have Rtools (and a version which is compatable with your R version).
+library(devtools) # Make sure you have Rtools (and a version which is compatible with your R version).
 install_github("rebeccakuiper/ICweights")
 library(ICweights)
 #?IC.weights # This also contains examples of how to use the function
@@ -27,7 +27,7 @@ data
 #Raudenbush (2009) uses REML estimation to fit a random-effects model. Since REML estimation is the default for the rma() function, we can obtain the same results with:
 metaan <- rma(yi, vi, data=data, digits=3)
 metaan
-# these are the same results reported in Table 16.2 (p. 301). In particular, ^τ2 = .019, ^μ = .084, SE[^μ] = .052, and z = 1.62 for the test H0: μ = 0.
+# these are the sults reported in Table 16.2 (p. 301). In particular, ^τ2 = .019, ^μ = .084, SE[^μ] = .052, and z = 1.62 for the test H0: μ = 0.
 
 
 # AIC #
@@ -72,7 +72,7 @@ VCOV_est <- vcov(metaan)
 H1 <- "theta > 0"
 #
 # Apply GORICA
-set.seed(123) # set seed: to obtain same results when you re-run it
+set.seed(123) # set seed: to obtain the same results when you re-run it
 results_H1 <- goric(est, VCOV = VCOV_est, H1, comparison = "complement", type = "gorica")
 results_H1
 #restriktor (0.2-800): generalized order-restricted information criterion approximation:
@@ -89,7 +89,7 @@ results_H1
 # Alternative: H0 and H1
 H0 <- "theta == 0"
 H1 <- "theta > 0"
-set.seed(123) # set seed: to obtain same results when you re-run it 
+set.seed(123) # set seed: to obtain the same results when you re-run it 
 goric(est, VCOV = VCOV_est, H0, H1, type = "gorica")
 #
 #restriktor (0.2-800): generalized order-restricted information criterion approximation:
